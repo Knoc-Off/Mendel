@@ -1,0 +1,9 @@
+[Interface]
+PrivateKey = XXXXXXXXX
+Address = XX.XX.XX.XX/XX
+DNS = XX.XX.XX.XX
+
+[Peer]
+PublicKey = XXXXXXXXXX
+AllowedIPs = 0.0.0.0/0
+Endpoint = XXX.XXX.XXX.XXX:51820
