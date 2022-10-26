@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 {
+
   services = { 
+
     # OpenSnitch report connections.
     opensnitch.enable = true;
 

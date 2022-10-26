@@ -10,9 +10,8 @@
     # other than that i dont think its possible or useful.
 
     area = { 
-      test = [ "test1.conf" "test2.conf" ]; 
-      us = [ "US_GA.conf" "US_CA.conf" ]; 
-      eu = [ "DE_90.conf" "DE_13.conf" "DE_SECURE.conf" "EU_SWISS.conf" ]; 
+      us = [ "US_1_SC.conf" ]; 
+      eu = [ "DE_1_SC.conf" "DE_14.conf" "DE_14_SC.conf" ]; 
     }."${country}";
 
     config = __elemAt area profile;

@@ -16,6 +16,7 @@
       ";
       #plugins = with pkgs.vimPlugins; [
       plugins = with pkgs; [
+        vimPlugins.direnv-vim # For .direnv + nixshell
         vimPlugins.yankring
         vimPlugins.vim-nix
         vimPlugins.nvim-treesitter

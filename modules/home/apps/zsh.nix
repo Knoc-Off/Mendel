@@ -4,6 +4,7 @@
     home.packages = with pkgs; [
       unstable.chroma # Required for colorize...
       imagemagick # Required for catomg
+      thefuck
     ];
 
     programs.mcfly = {
@@ -30,16 +31,39 @@
         "fancy-ctrl-z"
         "fd"
         "mosh"
-        "sudo"
-        #"thefuck"
+        #"sudo"
+        "thefuck"
         #"gh"
         #"git"
+      ];
+      plugins = [
+        {
+          name = "zsh-you-should-use";
+          src = pkgs.zsh-you-should-use;
+        }
+        {
+          name = "syntax-highlighting";
+          src = pkgs.zsh-syntax-highlighting;
+        }
+        {
+          name = "zsh-fzf-tab";
+          src = pkgs.zsh-fzf-tab;
+        }
+        {
+          name = "zsh-completions";
+          src = pkgs.zsh-completions;
+        }
       ];
       initExtra = ''
         # ~/.zshrc
         autoload -Uz vcs_info # enable vcs_info
         precmd () { vcs_info } # always load before displaying the prompt
         zstyle ':vcs_info:*' formats ' %s(%F{red}%b%f)' # git(main)
+
+        ## DirEnv Config
+        eval "$(direnv hook zsh)"
+
+      
 
         EDITOR="nvim"
         PS1=" %F{3}%3~ %f%# "

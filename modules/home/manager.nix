@@ -12,6 +12,12 @@
 #      ./apps/swaytest.nix
     ];
 
+  nix.extraOptions = ''
+    keep-outputs = true
+    keep-derivations = true
+  '';
+  
+
   users.defaultUserShell = pkgs.zsh;
   environment.shells = with pkgs; [ zsh ];
 
@@ -25,12 +31,16 @@
     useUserPackages = true;
     useGlobalPkgs = true;
     users.niko = { pkgs, ... }: {
+
+      # nix Dir-env shell
+      programs.direnv.enable = true;
+      programs.direnv.nix-direnv.enable = true;
+
+
       programs.home-manager.enable = true;
-      home = {
-        sessionVariables = {
+      home.sessionVariables = {
           EDITOR = "nvim";
         };
-      };
     };
   };
 }
