@@ -8,34 +8,39 @@
     <home-manager/nixos>
   ];
 
-   /* System Config structure
+    /* System Config structure
+    Channels:
+      home-manager  https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz
+      nixos         https://nixos.org/channels/nixos-22.05
+      unstable      https://channels.nixos.org/nixos-unstable
 
-   modules/          - every module that builds my system
-   ├─ manager.nix      - this loads the user, and configs
-   ├─ config/          - system configs
-   │ ├─ nur.nix          - Nix User Repo
-   │ ├─ overlays.nix     - package overlays, unstable.
-   │ ├─ programs.nix     - Applications without added configs
-   │ ├─ services.nix     - Services for my computer
-   │ ├─ unstable.nix     - Migrate to this from unstable.
-   │ └─ network/         - network configs
-   │ ' ├─ hosts.nix        - block data to ips's
-   │ ' ├─ manager.nix      - control which are loaded
-   │ ' ├─ wireguard.nix    - Wireguard module 
-   │ ' └─ wireguard-profiles - wireguard profiles
-   └─ home/          - User settings
-   ' ├─ manager.nix    - where the user is configured
-   ' └─ apps/          - applications with specific configs
-   ' ' ├─ zsh.nix        - main shell
-   ' ' ├─ bash.nix       - shell
-   ' ' ├─ nushell.nix    - rust shell
-   ' ' ├─ alacritty.nix  - Terminal Emulator
-   ' ' ├─ firefox.nix    - firefox profile 
-   ' ' ├─ neovim.nix     - modal editor 
-   ' ' ├─ bat.nix        - cat alternative 
-   ' ' ├─ git.nix        - git config 
-   ' ' ├─ sway.nix       - template
-   ' ' └─ example.nix    - sway wm config
+
+    modules/          - every module that builds my system
+    ├─ manager.nix      - this loads the user, and configs
+    ├─ config/          - system configs
+    │ ├─ nur.nix          - Nix User Repo
+    │ ├─ overlays.nix     - package overlays, unstable.
+    │ ├─ programs.nix     - Applications without added configs
+    │ ├─ services.nix     - Services for my computer
+    │ ├─ unstable.nix     - Migrate to this from unstable.
+    │ └─ network/         - network configs
+    │ ' ├─ hosts.nix        - block data to ips's
+    │ ' ├─ manager.nix      - control which are loaded
+    │ ' ├─ wireguard.nix    - Wireguard module 
+    │ ' └─ wireguard-profiles - wireguard profiles
+    └─ home/          - User settings
+    ' ├─ manager.nix    - where the user is configured
+    ' └─ apps/          - applications with specific configs
+    ' ' ├─ zsh.nix        - main shell
+    ' ' ├─ bash.nix       - shell
+    ' ' ├─ nushell.nix    - rust shell
+    ' ' ├─ alacritty.nix  - Terminal Emulator
+    ' ' ├─ firefox.nix    - firefox profile 
+    ' ' ├─ neovim.nix     - modal editor 
+    ' ' ├─ bat.nix        - cat alternative 
+    ' ' ├─ git.nix        - git config 
+    ' ' ├─ sway.nix       - template
+    ' ' └─ example.nix    - sway wm config
   */
 
   hardware.opengl = {

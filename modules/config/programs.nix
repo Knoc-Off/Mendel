@@ -7,7 +7,6 @@
     wget
     git
     lutris
-    unstable.ferium
     firefox
     opensnitch
     opensnitch-ui
