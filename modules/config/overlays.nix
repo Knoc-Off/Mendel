@@ -1,4 +1,4 @@
-{ ...}:
+{ ... }:
 let
   pkgsConfig = {
     allowUnfree = true;

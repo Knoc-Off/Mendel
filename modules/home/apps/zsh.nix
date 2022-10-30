@@ -1,10 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   home-manager.users.niko = { pkgs, ... }: {
     home.packages = with pkgs; [
       unstable.chroma # Required for colorize...
       imagemagick # Required for catomg
-      thefuck
+      thefuck # If you forget sudo or something
     ];
 
     programs.mcfly = {
@@ -31,7 +31,6 @@
         "fancy-ctrl-z"
         "fd"
         "mosh"
-        #"sudo"
         "thefuck"
         #"gh"
         #"git"
@@ -65,18 +64,18 @@
 
       
 
-        EDITOR="nvim"
-        PS1=" %F{3}%3~ %f%# "
         
         alias uniq="awk '{lines[$0]=$0} END{for(l in lines) print l}'"
+        PS1=" %F{3}%3~ %f%# "
 
+        EDITOR="nvim"
         function edit () {
           if [[ ! -w "$(dirname $(realpath '$1'))" ]]; then
-            sudoedit "$1"
+            sudo nvim "$1"
             return;
           fi
           if [[ ! -w "$(realpath '$1'))" ]]; then
-            sudoedit "$1"
+            sudo nvim "$1"
             return;
           fi
           nvim $1
@@ -84,41 +83,14 @@
         # Should search for a matching word in apps
         function nx () {
           if [ ! $1 ]; then
-            echo "
-              modules/          - every module that builds my system
-              ├─ manager.nix      - this loads the user, and configs
-              ├─ config/          - system configs
-              │  ├─ nur.nix          - Nix User Repo
-              │  ├─ overlays.nix     - package overlays, unstable.
-              │  ├─ programs.nix     - Applications without added configs
-              │  ├─ services.nix     - Services for my computer
-              │  ├─ unstable.nix     - Migrate to this from unstable.
-              │  └─ network/         - network configs
-              │  '  ├─ hosts.nix        - block data to ips's
-              │  '  ├─ manager.nix      - control which are loaded
-              │  '  ├─ wireguard.nix    - Wireguard module
-              │  '  └─ wireguard-profiles - wireguard profiles
-              └─ home/          - User settings
-              '  ├─ manager.nix    - where the user is configured
-              '  └─ apps/          - applications with specific configs
-              '  '  ├─ zsh.nix        - main shell
-              '  '  ├─ bash.nix       - shell
-              '  '  ├─ nushell.nix    - rust shell
-              '  '  ├─ alacritty.nix  - Terminal Emulator
-              '  '  ├─ firefox.nix    - firefox profile
-              '  '  ├─ neovim.nix     - modal editor
-              '  '  ├─ bat.nix        - cat alternative
-              '  '  ├─ git.nix        - git config
-              '  '  ├─ sway.nix       - sway config
-              '  '  └─ example.nix    - template config
-            "
+            exa -T /etc/nixos/
           else
             case $1 in
               rb)
                 sudo nixos-rebuild switch
               ;;
-              cf)
-                edit /etc/nixos/configuration.nix
+              rt)
+                sudo nixos-rebuild test
               ;;
               *)
                 # Search for match in /apps
@@ -130,6 +102,39 @@
           fi
         }
        
+        # Function that generates a shell.nix in the 
+        # current dir, should take some inputs
+        function nix-shellgen () { 
+          # Parse args, should make them string-inputs
+          # env - generate a direnv and allow
+          # stable,unstable,nur - the imports
+          # pkgs - what programs should be added
+          # run - the shellhook to be added.
+          # etc...
+
+          # right now im gonna do a shit implamentation
+          if [ $1 ]; then
+            echo "arguments? who do you think I am";
+          fi
+          if [[ -f ./shell.nix ]]; then return 1; fi
+
+          echo \
+"{ pkgs ? import <nixpkgs> {},  unstable ? import <unstable> {}}:
+pkgs.mkShell {
+  buildInputs = [
+  ];
+  shellHook = \"
+  \";
+}" > shell.nix;
+          if [[ -f ./.envrc ]]; then return 1; fi
+          echo "use nix" > .envrc;
+          direnv allow
+
+        }
+
+
+        # Silence Direnv output:
+        export DIRENV_LOG_FORMAT=
       '';
     };
   };

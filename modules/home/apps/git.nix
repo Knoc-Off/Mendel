@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   home-manager.users.niko = { pkgs, ... }: {
     #home.packages = with pkgs; [ 
@@ -7,7 +7,7 @@
       enable = true;
       package = pkgs.gitAndTools.gitFull; # Install git wiith all the optional extras
         userName = "knoc-off";
-      userEmail = "github@skyline.sbs";
+      userEmail = "github@knoc.one";
       extraConfig = {
         core.editor = "vim";
         # Cache git credentials for 15 minutes
@@ -16,4 +16,5 @@
     }; 
   };
 
+  # Cnfigure gh cli too
 }

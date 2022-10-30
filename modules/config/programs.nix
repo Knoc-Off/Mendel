@@ -3,6 +3,7 @@
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     vim
+    niv
     bash
     wget
     git
@@ -15,8 +16,6 @@
   home-manager = {
     users.niko = { pkgs, ... }: {
       home.packages = with pkgs; [
-
-        ## CLI
         # CLI tools
         fd
         fzf
@@ -26,15 +25,9 @@
         # CLI Apps
         mosh
         btop
+        unstable.lazygit
+        sl # Vital for system functionality
 
-        # Toolchain
-        rustup
-        
-        ## GUI
-        # Graphics
-        gimp
-        unstable.inkscape-with-extensions
-        
         # Internet
         jitsi-meet
         element-desktop
@@ -44,6 +37,12 @@
         # personal
         nur.repos.moredread.joplin-desktop
         unstable.easyeffects
+
+        # Graphics
+        unstable.gimp
+        # [todo] Spotify with adblock
+        # spotify
+        # nur.repos.instantos.spotify-adblock
       ];
     };
   };

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   home-manager.users.niko = { pkgs, ... }: {
     programs.firefox = {

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   programs.neovim.defaultEditor = true;
   home-manager.users.niko = { pkgs, ... }: {

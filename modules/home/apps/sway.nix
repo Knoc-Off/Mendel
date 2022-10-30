@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 let
   # bash script to let dbus know about important env variables and
   # propagate them to relevent services run at the end of sway config

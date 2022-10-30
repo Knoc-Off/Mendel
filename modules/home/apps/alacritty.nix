@@ -1,9 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   fonts.fonts = with pkgs; [
-    #sudo-font
     hack-font
   ];
+
   home-manager.users.niko = { pkgs, ... }: {
     home.packages = with pkgs; [
       wl-clipboard
@@ -16,16 +16,9 @@
       # unbind all?
       escapeTime = 0;
       plugins = with pkgs; [
-        #tmuxPlugins.cpu
-        {
-          plugin = tmuxPlugins.yank;
-          #extraConfig = ''
-          #  set -g @yank_action 'copy-pipe-no-clear'
-          #'';
-        }
+        tmuxPlugins.yank
       ];
 
-      #shell = "\${pkgs.zsh}/bin/zsh";     
       extraConfig = ''
         unbind v
         unbind h
@@ -65,6 +58,7 @@
         bind -T copy-mode-vi C-c send -X copy-pipe-no-clear "wl-copy"
 
 
+        set -g default-terminal "screen-256color"
       '';
 
     };

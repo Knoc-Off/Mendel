@@ -1,10 +1,11 @@
-{ config, pkgs, ... }:
+{ ... }:
 {
   networking.wg-quick.interfaces = 
   let
     country = "eu";
-    profile = 2;
+    profile = 0;
     area = { 
+      test = [ "testing.conf" ];
       us = [ "US_1_SC.conf" ]; 
       eu = [ "DE_1_SC.conf" "DE_14.conf" "DE_14_SC.conf" ]; 
     }."${country}";
@@ -34,6 +35,7 @@
               privateKey;
       mtu = 1250; # Should have a if defined else 1250
       autostart = true;
+      #listenPort = 20575;
       peers = [
         {
           inherit publicKey
