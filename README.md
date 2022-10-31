@@ -1,3 +1,4 @@
+```
 /etc/nixos/
 ├── README.md         - you are here
 ├── configuration.nix   - Basic/misc configs
@@ -29,3 +30,4 @@
 '  '  '  ├── sway.nix       - not working
 '  '  '  ├── swaytest.nix   - also not working
 '  '  '  └── zsh.nix        - my shell config
+```
