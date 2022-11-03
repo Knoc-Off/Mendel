@@ -23,7 +23,7 @@
         tealdeer
 
         # CLI Apps
-        mosh
+        unstable.mosh
         btop
         unstable.lazygit
         sl # Vital for system functionality
@@ -37,6 +37,8 @@
         # personal
         nur.repos.moredread.joplin-desktop
         unstable.easyeffects
+        unstable.rpi-imager
+        unstable.nodejs # For vim coc
 
         # Graphics
         unstable.gimp

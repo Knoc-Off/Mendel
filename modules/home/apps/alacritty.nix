@@ -57,7 +57,7 @@
         bind -T copy-mode    C-c send -X copy-pipe-no-clear "wl-copy"
         bind -T copy-mode-vi C-c send -X copy-pipe-no-clear "wl-copy"
 
-
+        # Fix colorless sudo mode
         set -g default-terminal "screen-256color"
       '';
 

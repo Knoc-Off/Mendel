@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   imports =
     [ 
@@ -28,14 +28,32 @@
   };
 
   home-manager = {
+
     useUserPackages = true;
     useGlobalPkgs = true;
-    users.niko = { pkgs, ... }: {
+    users.niko = { config, pkgs, ... }: {
+
+
+      nixpkgs.config = {
+        allowUnfree = true;
+        packageOverrides = pkgs: {
+          unstable = import <unstable> { config = config.nixpkgs.config; };
+          nur = import <nur> { inherit pkgs; };
+        };
+      };
 
       # nix Dir-env shell
       programs.direnv.enable = true;
       programs.direnv.nix-direnv.enable = true;
 
+      programs.ssh.extraConfig = "abc";
+      programs.ssh.matchBlocks = {
+        "relay" = {
+          hostname = "192.168.2.224";
+          user = "pi";
+          #identityFile = "/home/john/.ssh/foo_rsa";
+        };
+      };
 
       programs.home-manager.enable = true;
       home.sessionVariables = {
