@@ -1,26 +1,29 @@
-{ ... }:
+{ config, ... }:
 let
-  pkgsConfig = {
-    allowUnfree = true;
-  };
 
   packageSetsOverlay = self: super: {
     unstable = import <unstable>
-      { config = pkgsConfig; };
+      { config = config.nixpkgs.config; };
     nur = import <nur>
-      { config = pkgsConfig; };
+      { inherit pkgs; };
   };
 
   upgradesOverlay = self: super: {
-    dropbox = super.pkgsUnstable.dropbox;
-    jbake = super.pkgsUnstable.jbake;
+    fubbo = super.unstable.ferium;
+    nurpy = super.nur.repos.mic92.hello-nur;
   };
 
-  overlays = [ packageSetsOverlay
-               upgradesOverlay
-             ];
+  overlays = 
+  [ 
+    packageSetsOverlay
+    upgradesOverlay
+  ];
 in
 {
   nixpkgs.overlays = overlays;
-  nixpkgs.config = pkgsConfig;
+
+  home-manager.users.niko = { config, pkgs, ... }: 
+  {
+    nixpkgs.overlays = overlays;
+  };
 }

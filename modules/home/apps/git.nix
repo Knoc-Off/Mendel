@@ -14,7 +14,12 @@
         credential.helper = "cache";
       };
     }; 
+    programs.gh = {
+      enable = true;
+      settings = {
+        editor = "nvim";
+      };
+    };
   };
-
   # Cnfigure gh cli too
 }

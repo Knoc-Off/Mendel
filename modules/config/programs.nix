@@ -1,4 +1,12 @@
 { config, lib, pkgs, ... }:
+let
+  # Packages for the user:
+
+
+  # Packages for root:
+  
+
+in
 {
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
@@ -9,48 +17,54 @@
     git
     lutris
     firefox
-    opensnitch
-    opensnitch-ui
+    trash-cli
   ];
 
-  home-manager = {
-    users.niko = { pkgs, ... }: {
-      home.packages = with pkgs; [
-        # CLI tools
-        fd
-        fzf
-        ripgrep
-        tealdeer
+  home-manager.users.niko = { pkgs, ... }: {
+    home.packages = with pkgs; [
+      # CLI tools
+      fd
+      fzf
+      nnn
+      ripgrep
+      tealdeer
 
-        # CLI Apps
-        unstable.mosh
-        btop
-        unstable.lazygit
-        sl # Vital for system functionality
+      # CLI Apps
+      unstable.mosh
+      btop
+      unstable.lazygit
+      unstable.sshfs
 
-        # Internet
-        jitsi-meet
-        element-desktop
-        ungoogled-chromium
-        nur.repos.xddxdd.qbittorrent-enhanced-edition
+      # Internet
+      jitsi-meet
+      element-desktop
+      ungoogled-chromium
+      nur.repos.xddxdd.qbittorrent-enhanced-edition
 
-        # personal
-        nur.repos.moredread.joplin-desktop
-        unstable.easyeffects
-        unstable.rpi-imager
-        unstable.nodejs # For vim coc
+      # personal
+      unstable.whatsapp-for-linux
+      nur.repos.moredread.joplin-desktop
+      unstable.trilium-desktop
+      unstable.easyeffects
 
-        # Graphics
-        unstable.gimp
-        # [todo] Spotify with adblock
-        # spotify
-        # nur.repos.instantos.spotify-adblock
-      ];
-    };
+      # Graphics
+      unstable.gimp
+      # [todo] Spotify with adblock
+      # Do with overides during install process.
+      # Fetch from abba123, edit desktop exec, to lg preload
+      # spotify
+
+      # Language Servers:
+      unstable.nodejs
+      rnix-lsp
+      nodePackages.bash-language-server
+      unstable.sumneko-lua-language-server
+    ];
   };
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = false;
-    dedicatedServer.openFirewall = false;
-  };
+
+#  programs.steam = {
+#    enable = true;
+#    remotePlay.openFirewall = false;
+#    dedicatedServer.openFirewall = false;
+#  };
 }

@@ -1,8 +1,23 @@
 { pkgs, ... }:
 {
-  fonts.fonts = with pkgs; [
-    hack-font
-  ];
+  fonts = {
+    enableDefaultFonts = true;
+
+    fonts = with pkgs; [
+      hack-font
+      #unscii
+
+      noto-fonts-emoji
+    ];
+    fontconfig = {
+      defaultFonts = {
+        serif = [ "DejaVu Serif" /* "unscii" */ ]; 
+        sansSerif = [ "DejaVu Serif" /* "unscii" */ ];
+      };
+    };
+  };
+
+  fonts.fontconfig.defaultFonts.monospace = [ "hack" ];
 
   home-manager.users.niko = { pkgs, ... }: {
     home.packages = with pkgs; [
@@ -57,14 +72,14 @@
         bind -T copy-mode    C-c send -X copy-pipe-no-clear "wl-copy"
         bind -T copy-mode-vi C-c send -X copy-pipe-no-clear "wl-copy"
 
-        # Fix colorless sudo mode
-        set -g default-terminal "screen-256color"
+        set -g default-terminal 'screen-256color'
+        set -ga terminal-overrides ',*256col*:Tc'
+        set -ag terminal-overrides ",alacritty:RGB,xterm-256color:RGB,gnome*:RGB"
+
       '';
 
     };
 
-    # Alacritty
-    # Rust-based terminal emulator
     programs.alacritty = {
       enable = true;
       settings = {
@@ -112,7 +127,10 @@
           size = 15.00;
         };
         shell = {
-          program = "tmux";
+          program = "/usr/bin/env";
+          args = [
+              "tmux"
+            ];
         };
         colors = {
           primary = {
@@ -122,5 +140,5 @@
         };
       };
     };
-  }; 
+  };
 }

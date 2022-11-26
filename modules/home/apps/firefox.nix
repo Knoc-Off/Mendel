@@ -71,13 +71,13 @@
           }
         '';
         
-        userContent = let
-          File = __fetchurl {
-            url = "https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/css/leptonContent.css";
-            sha256 = "37137e59cbc36b32e38d9caf766ea0b1b9a1a2123e66a9da1f09a7602af2ea31";
-          };
-          FileFormat =  builtins.replaceStrings ["../"] ["./"] "${builtins.readFile File}";
-        in "${FileFormat}";
+        # userContent = let
+        #   File = __fetchurl {
+        #     url = "https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/css/leptonContent.css";
+        #     sha256 = "1y7gfb51sxysl1z1wjjwjajcvs6j1cynmzhin8svn6yd5icswwkv";
+        #   };
+        #   FileFormat =  builtins.replaceStrings ["../"] ["./"] "${builtins.readFile File}";
+        # in "${FileFormat}";
 
 
         settings = {

@@ -1,18 +1,15 @@
 { pkgs, ... }:
-{
-  programs.neovim.defaultEditor = true;
-  home-manager.users.niko = { pkgs, ... }: {
-#    home.file.".config/nvim/init.lua".text = ''
-#      '';
+let
+  neovim_config = { pkgs, ... }: {
     programs.neovim = {
       enable = true;
       vimAlias = true;
       viAlias = true;
-      extraConfig = 
+      extraConfig =
       ''
-        set autoindent 
-        set expandtab 
-        set tabstop=2 
+        set autoindent
+        set expandtab
+        set tabstop=2
         set shiftwidth=2
         set undofile
       '';
@@ -29,7 +26,7 @@
         haskell-vim
         vim-lua
         rust-vim
-        
+
         nvim-cmp
 
         vim-markdown
@@ -39,36 +36,9 @@
       ];
     };
   };
-  home-manager.users.root = { pkgs, ... }: {
-    programs.neovim = {
-      enable = true;
-      vimAlias = true;
-      viAlias = true;
-      extraConfig =
-      "
-        set autoindent
-        set expandtab
-        set tabstop=2
-        set shiftwidth=2
-      ";
-      plugins = with pkgs; [
-        vimPlugins.yankring
-        vimPlugins.vim-nix
-        vimPlugins.nvim-treesitter
-        vimPlugins.nvim-lspconfig
-        vimPlugins.nvim-cmp
-        vimPlugins.fzf-vim
-        vimPlugins.fzfWrapper
-        vimPlugins.haskell-vim
-        vimPlugins.vim-lua
-        vimPlugins.coc-lua
-        vimPlugins.rust-vim
-        vimPlugins.coc-rust-analyzer
-        vimPlugins.vim-markdown
-        nur.repos.m15a.vimExtraPlugins.firenvim
-        nur.repos.m15a.vimExtraPlugins.zephyrium
-      ];
-    };
-  };
-
+in
+{
+  programs.neovim.defaultEditor = true;
+  home-manager.users.niko = neovim_config;
+  home-manager.users.root = neovim_config;
 }
