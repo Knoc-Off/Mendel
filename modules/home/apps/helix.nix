@@ -65,7 +65,7 @@ let
           name = "rust";
           indent = {
             tab-width = 2;
-            # unit = " ";
+            unit = " ";
           };
         }
         {

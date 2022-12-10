@@ -1,6 +1,7 @@
 { config, ... }:
 let
 
+
   packageSetsOverlay = self: super: {
     unstable = import <unstable>
       { config = config.nixpkgs.config; };
@@ -13,17 +14,17 @@ let
     nurpy = super.nur.repos.mic92.hello-nur;
   };
 
-  overlays = 
-  [ 
-    packageSetsOverlay
-    upgradesOverlay
-  ];
+  overlays =
+    [
+      packageSetsOverlay
+      upgradesOverlay
+    ];
 in
 {
   nixpkgs.overlays = overlays;
 
-  home-manager.users.niko = { config, pkgs, ... }: 
-  {
-    nixpkgs.overlays = overlays;
-  };
+  home-manager.users.niko = { config, pkgs, ... }:
+    {
+      nixpkgs.overlays = overlays;
+    };
 }

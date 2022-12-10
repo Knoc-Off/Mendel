@@ -3,8 +3,14 @@
 ## DirEnv Config
 eval "$(direnv hook zsh)"
 
+# Silence Direnv output:
+export DIRENV_LOG_FORMAT=
+
 func nixx () { if [[ $1 == "sudo" ]]; then; prog=$2 else; prog=$1; fi;  nix-shell -p "$prog" --run "$(echo $@)" }
 PS1=" %F{3}%3~ %f%# "
+
+
+
 
 # Should search for a matching word in apps
 function nx () {
@@ -33,32 +39,16 @@ function nx () {
 }
 
 function nix-shellgen () {
-  if [[ -f ./.envrc ]]; then 
+  if [[ ! -f ./.envrc ]]; then 
     echo "use nix" > .envrc;
   fi
 
-  if [[ -f ./shell.nix ]]; then 
-    echo \
-"{ pkgs ? import <nixpkgs> {},  unstable ? import <unstable> {}}:
-pkgs.mkShell {
-  buildInputs = [
-  ];
-  shellHook = ''
-  '';
-}" > shell.nix;
+  if [[ ! -f ./shell.nix ]]; then 
+    printf "{ pkgs ? import <nixpkgs> {},  unstable ? import <unstable> {}}:\npkgs.mkShell {\n  buildInputs = [\n  ];\n  shellHook = ''\n  '';\n}\n" > shell.nix;
   fi
   direnv allow
 }
 
-func ip_addr () {
-  printf "
-$(hostname)_IP:\n
-$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')\n\n
-Local_IPs:\n
-$(nix-shell -p arp-scan --run "sudo arp-scan -lxg")\n
-\n";
-
-}
 
 qr () {
   if [[ $1 == "--share" ]]; then
@@ -73,5 +63,3 @@ qr () {
   echo "${1}" | qrencode -t UTF8
 }
 
-# Silence Direnv output:
-export DIRENV_LOG_FORMAT=

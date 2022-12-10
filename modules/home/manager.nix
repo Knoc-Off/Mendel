@@ -10,6 +10,7 @@
       ./apps/bash.nix
       ./apps/zsh.nix
       ./apps/cli-tools.nix
+      ./apps/steam.nix
       #      ./apps/swaytest.nix
     ];
 
@@ -36,33 +37,33 @@
     useGlobalPkgs = true;
     users.niko = { config, pkgs, ... }: {
 
-      home.file.".ssh/config".text = 
-        ''
-        Host kobbl
-            HostName kobbl.co
-            Port 22
-            User root
+      home.file.".ssh/config".text = __readFile ./configs/ssh.conf;
+        # ''
+        # Host kobbl
+        #     HostName kobbl.co
+        #     Port 22
+        #     User root
           
-            # any other fancy option needed to log in
-            # ProxyJump foo ...
+        #     # any other fancy option needed to log in
+        #     # ProxyJump foo ...
           
-            IdentitiesOnly yes
-            IdentityFile ~/.ssh/id_rsa
+        #     IdentitiesOnly yes
+        #     IdentityFile ~/.ssh/id_rsa
           
-          host relay
-            HostName 192.168.8.165
-            Port 8224
-            User root
-            IdentitiesOnly yes
-            IdentityFile ~/.ssh/id_rsa
+        #   host relay
+        #     HostName 192.168.8.165
+        #     Port 8224
+        #     User root
+        #     IdentitiesOnly yes
+        #     IdentityFile ~/.ssh/id_rsa
           
-          host nixpi
-            HostName 192.168.8.165
-            Port 8188
-            User root
-            IdentitiesOnly yes
-            IdentityFile ~/.ssh/id_rsa
-        '';
+        #   host nixpi
+        #     HostName 192.168.8.165
+        #     Port 8188
+        #     User root
+        #     IdentitiesOnly yes
+        #     IdentityFile ~/.ssh/id_rsa
+        # '';
 
       #      nixpkgs.config = {
       #        allowUnfree = true;

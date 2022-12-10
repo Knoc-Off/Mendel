@@ -46,14 +46,19 @@ in
       nur.repos.moredread.joplin-desktop
       unstable.trilium-desktop
       unstable.easyeffects
+      gnome3.gnome-tweaks
+      discord
+      prismlauncher
 
       # Graphics
-      unstable.gimp
+      # unstable.gimp
       # [todo] Spotify with adblock
       # Do with overides during install process.
       # Fetch from abba123, edit desktop exec, to lg preload
       # spotify
 
+      #java
+      
       # Language Servers:
       unstable.nodejs
       rnix-lsp

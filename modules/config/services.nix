@@ -7,7 +7,8 @@
     opensnitch.enable = true;
 
     # Disable CUPS
-    printing.enable = false;
+    # printing.enable = true;
+    # printing.drivers = [ pkgs.gutenprint pkgs.hplip pkgs.hplipWithPlugin ];
 
     # Flatpak
     flatpak.enable = true;
@@ -15,6 +16,7 @@
     xserver = {
       # Enable the X11 windowing system.
       enable = true;
+      videoDrivers = [ "amdgpu" ];
 
       # Keyboard
       layout = "us";
@@ -28,4 +30,8 @@
       desktopManager.gnome.enable = true;
     };
   };
+  #GPU
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.hip}"
+  ];
 }

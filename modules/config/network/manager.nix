@@ -1,11 +1,12 @@
 { ... }:
 {
   imports = [
-    ./wireguard.nix
+    #./wireguard.nix
+    ./wg-quick.nix
     #./hosts.nix
   ];
   networking = {
-    hostName = "lapix"; # Define your hostname.
+    hostName = "lapix PC"; # Define your hostname.
     networkmanager.enable = true;
     firewall.enable = true;
   };

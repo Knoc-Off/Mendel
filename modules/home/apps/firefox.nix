@@ -1,89 +1,73 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
+let
+  profileName = "personal";
+  profileApperenceName = "Personal";
+  firefoxPath = ".mozilla/firefox";
+  profilePath = "${firefoxPath}/${profileName}";
+in
 {
   home-manager.users.niko = { pkgs, ... }: {
+
+    # try to replace with: profiles.personal.path ? "${profilesPath}/${profile.path}/extensions" =
+    # programs.firefox.profiles.personal.path
+    # home.file."${config.programs.firefox.enable}/chrome/testomg.css".text = " test ";
+    home.file."${profilePath}/chrome/hide-tabbar.css".text =
+      __readFile (__fetchurl {
+        url = "https://raw.githubusercontent.com/UnlimitedAvailableUsername/Edge-Mimicry-Tree-Style-Tab-For-Firefox/main/edge-mimicry/hide-tabbar.css";
+        sha256 = "1igwzq2v2v52wqabcwi9rb9li183gcix66lhj53x1d9dli689qfj";
+      });
+
+    home.file."${profilePath}/chrome/sidebar-mods.css".text =
+      __readFile (__fetchurl {
+        url = "https://raw.githubusercontent.com/UnlimitedAvailableUsername/Edge-Mimicry-Tree-Style-Tab-For-Firefox/main/edge-mimicry/sidebar-mods.css";
+        sha256 = "1fc4qxfq1vyir7flj4rlasmjprjs7ppq7lqy0ipvdi1rwk3qyv0p";
+      });
+    home.file."${profilePath}/chrome/treestyletab-edge-mimicry.css".text =
+      __readFile (__fetchurl {
+        url = "https://raw.githubusercontent.com/UnlimitedAvailableUsername/Edge-Mimicry-Tree-Style-Tab-For-Firefox/main/treestyletab-edge-mimicry.css";
+        sha256 = "1pyn99widc3m9xlsklwd403q2srhnafa4a1kyh1b3pgd1w9g0bli";
+      });
+
+    home.file."${profilePath}/chrome/vertical-tabs.css".text =
+      __readFile (__fetchurl {
+        url = "https://raw.githubusercontent.com/ranmaru22/firefox-vertical-tabs/main/userChrome.css";
+        sha256 = "0lcc853ddk9ia3x2hsvrq6vnnspbjadbqpkzhfvb6d42vsphgi61";
+      });
+
+
+
     programs.firefox = {
       enable = true;
 
 
-      profiles.personal = {
+
+      profiles.${profileName} = {
         id = 0;
-        name = "Personal";
-        userChrome = 
-        let
-          dark-thin-context-menu = builtins.readFile (__fetchurl {
-            url = "https://raw.githubusercontent.com/Timvde/UserChrome-Tweaks/master/context-menu/dark-thin-context-menu.css";
-            sha256 = "a5ff3ebb510eb91d52e724655325aedf12c49a2eba33c47291a7fc0a35f09e6f";
-          });
+        name = "${profileApperenceName}";
+        userChrome =
+          ''
+            @import "vertical-tabs.css";
+            @import "sidebar-mods.css";
 
-          verticalTabs = builtins.readFile (__fetchurl {
-            url = "https://raw.githubusercontent.com/ranmaru22/firefox-vertical-tabs/main/userChrome.css";
-            sha256 = "90c449822323bd3853351fd3f68c214d1a71307da539f302a836dee471f0278c";
-          });
+            #sidebar-header {
+              display: none;
+            }
 
-        in "${verticalTabs}" +
-        ''
-          .tabbrowser-tab:is([soundplaying]):not([selected]){    
-            border-bottom: 2px solid var(--focus-outline-color) !important;
-          }
-          .titlebar-buttonbox-container{ display:none }
+            .tabbrowser-tab:is([soundplaying]):not([selected]){    
+              border-bottom: 2px solid var(--focus-outline-color) !important;
+            }
+            :root {
+              --tab-sound-button-background-size: 20px;
+              --tab-sound-button-icon-size: 18px;
+            }
+          '';
 
-          :root {
-            /* delay before expanding tabs, set to '0' for no delay */
-            --delay: 0.1s;
-            --transition-time: 0.2s;
-            --positionX1: 48px; /* '48px' for left, '0px' for right sidebar */
-            --positionX2: absolute; /* 'absolute' for left, 'none' for right sidebar */
-            --sfwindow: #19171a;
-            --sfsecondary: #201e21;
-          }
-
-          #tabbrowser-tabs:not([movingtab])
-            > #tabbrowser-arrowscrollbox
-            > .tabbrowser-tab
-            > .tab-stack
-            > .tab-background[multiselected='true'],
-          #tabbrowser-tabs:not([movingtab])
-            > #tabbrowser-arrowscrollbox
-            > .tabbrowser-tab
-            > .tab-stack
-            > .tab-background[selected='true'] {
-            background-image: none !important;
-            background-color: var(--toolbar-bgcolor) !important;
-          }
-
-          /* Inactive tabs color */
-          #navigator-toolbox {
-            background-color: var(--sfwindow) !important;
-          }
-
-          /* Window colors  */
-          :root {
-            --toolbar-bgcolor: var(--sfsecondary) !important;
-            --tabs-border-color: var(--sfsecondary) !important;
-            --lwt-sidebar-background-color: var(--sfwindow) !important;
-            --lwt-toolbar-field-focus: var(--sfsecondary) !important;
-          }
-
-          /* Sidebar color  */
-          #sidebar-box,
-          .sidebar-placesTree {
-            background-color: var(--sfwindow) !important;
-          }
-        '';
-        
-        # userContent = let
-        #   File = __fetchurl {
-        #     url = "https://raw.githubusercontent.com/black7375/Firefox-UI-Fix/master/css/leptonContent.css";
-        #     sha256 = "1y7gfb51sxysl1z1wjjwjajcvs6j1cynmzhin8svn6yd5icswwkv";
-        #   };
-        #   FileFormat =  builtins.replaceStrings ["../"] ["./"] "${builtins.readFile File}";
-        # in "${FileFormat}";
 
 
         settings = {
           # Enable HTTPS-Only Mode
-#          "dom.security.https_only_mode" = true;
-#          "dom.security.https_only_mode_ever_enabled" = true;
+          "dom.security.https_only_mode" = true;
+          "dom.security.https_only_mode_ever_enabled" = true;
 
           # Privacy settings
           "privacy.trackingprotection.pbmode.enabled" = true;
@@ -91,51 +75,52 @@
           "security.ssl.disable_session_identifiers" = true;
           "signon.autofillForms" = false;
 
-#          "media.eme.enabled" = false;
-#          "media.gmp-widevinecdm.enabled" = false;
-#          "network.cookie.cookieBehavior" = 1;
-#
-#          "network.http.referer.trimmingPolicy" = 0;
-#          "beacon.enabled" = false;
-#          "browser.cache.offline.enable" = false;
-#          "browser.disableResetPrompt" = true;
-#          "browser.fixup.alternate.enabled" = false;
-#          "browser.newtab.preload" = false;
-#          "browser.newtabpage.activity-stream.disableSnippets" = true;
-#          "browser.newtabpage.activity-stream.enabled" = false;
-#          "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
-#          "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
-#          "browser.newtabpage.activity-stream.feeds.snippets" = false;
-#          "browser.newtabpage.activity-stream.feeds.topsites" = false;
-#          "browser.newtabpage.activity-stream.migrationExpired" = true;
-#          "browser.newtabpage.activity-stream.prerender" = false;
-#          "browser.newtabpage.activity-stream.showSearch" = false;
-#          "browser.newtabpage.activity-stream.showTopSites" = false;
-#          "browser.newtabpage.directory.source" = "";
-#          "browser.newtabpage.directory.ping" = "";
-#          "browser.newtabpage.enabled" = false;
-#          "browser.newtabpage.enhanced" = false;
-#          "browser.newtabpage.introShown" = true;
-#
-#
-#          "browser.selfsupport.url" = "";
-#          "browser.send_pings" = false;
-#          "browser.shell.checkDefaultBrowser" = false;
-#          "browser.startup.homepage_override.mstone" = "ignore";
-#          "datareporting.healthreport.service.enabled" = false;
-#          "dom.battery.enabled" = false;
-#          "dom.enable_performance" = false;
-#          "dom.enable_resource_timing" = false;
-#
-#          "dom.webaudio.enabled" = false;
-#          "extensions.getAddons.cache.enabled" = false;
-#          "extensions.getAddons.showPane" = false;
-#          "extensions.greasemonkey.stats.optedin" = false;
-#          "extensions.greasemonkey.stats.url" = "";
-#          "extensions.webservice.discoverURL" = "";
-#          "geo.enabled" = false;
-#          "media.navigator.enabled" = false;
-        
+          "media.eme.enabled" = false;
+          "media.gmp-widevinecdm.enabled" = false;
+          "network.cookie.cookieBehavior" = 1;
+
+          "network.http.referer.trimmingPolicy" = 0;
+          "beacon.enabled" = false;
+          "browser.cache.offline.enable" = false;
+          "browser.disableResetPrompt" = true;
+          "browser.fixup.alternate.enabled" = false;
+          "browser.newtab.preload" = false;
+          "browser.newtabpage.activity-stream.disableSnippets" = true;
+          "browser.newtabpage.activity-stream.enabled" = false;
+          "browser.newtabpage.activity-stream.feeds.section.highlights" = false;
+          "browser.newtabpage.activity-stream.feeds.section.topstories" = false;
+          "browser.newtabpage.activity-stream.feeds.snippets" = false;
+          "browser.newtabpage.activity-stream.feeds.topsites" = false;
+          "browser.newtabpage.activity-stream.migrationExpired" = true;
+          "browser.newtabpage.activity-stream.prerender" = false;
+          "browser.newtabpage.activity-stream.showSearch" = false;
+          "browser.newtabpage.activity-stream.showTopSites" = false;
+          "browser.newtabpage.directory.source" = "";
+          "browser.newtabpage.directory.ping" = "";
+          "browser.newtabpage.enabled" = false;
+          "browser.newtabpage.enhanced" = false;
+          "browser.newtabpage.introShown" = true;
+
+
+          "browser.newtabpage.activity-stream.impressionId" = "";
+          "browser.selfsupport.url" = "";
+          "browser.send_pings" = false;
+          "browser.shell.checkDefaultBrowser" = false;
+          "browser.startup.homepage_override.mstone" = "ignore";
+          "datareporting.healthreport.service.enabled" = false;
+          "dom.battery.enabled" = false;
+          "dom.enable_performance" = false;
+          "dom.enable_resource_timing" = false;
+
+          "dom.webaudio.enabled" = false;
+          "extensions.getAddons.cache.enabled" = false;
+          "extensions.getAddons.showPane" = false;
+          "extensions.greasemonkey.stats.optedin" = false;
+          "extensions.greasemonkey.stats.url" = "";
+          "extensions.webservice.discoverURL" = "";
+          "geo.enabled" = false;
+          "media.navigator.enabled" = false;
+
 
           "privacy.donottrackheader.enabled" = true;
           "privacy.trackingprotection.enabled" = true;
@@ -147,12 +132,12 @@
           "browser.newtabpage.activity-stream.showSponsored" = false;
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
           # pinned
-          "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.havePinned" = "";          
+          "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.havePinned" = "";
           "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.searchEngines" = "";
           "browser.newtabpage.activity-stream.default.sites" = "";
           "browser.newtabpage.blocked" = "";
           "browser.search.hiddenOneOffs" = "Amazon.de,Bing,Google,Wikipedia (en)";
-          
+
           # Disable all sorts of telemetry
           "browser.newtabpage.activity-stream.telemetry.structuredIngestion.endpoint" = "";
           "browser.newtabpage.activity-stream.feeds.telemetry" = false;
@@ -209,16 +194,15 @@
 
 
           ### Privacy /\
-        
+
           #### Theme Settings ####
           ## personal
           "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
           "browser.urlbar.showSearchSuggestionsFirst" = false;
           "browser.tabs.insertAfterCurrent" = true;
-          #"browser.startup.homepage" = "about:blank";
           "browser.tabs.inTitlebar" = "2";
 
-          
+
           ## Photon theme
           # Defaults
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
@@ -324,6 +308,7 @@
           "browser.urlbar.unitConversion.enabled" = true;
 
           # Smooth Scroll
+          "general.autoScroll" = true; # Scroll with middle mouse click
           "apz.allow_zooming" = true;
           "apz.force_disable_desktop_zooming_scrollbars" = false;
           "apz.paint_skipping.enabled" = true;
@@ -365,8 +350,6 @@
           "mousewheel.transaction.timeout" = 1500;
           "toolkit.scrollbox.horizontalScrollDistance" = 4;
           "toolkit.scrollbox.verticalScrollDistance" = 3;
-          ## New shit
-          "browser.newtabpage.activity-stream.impressionId" = "";
         };
       };
 
@@ -377,14 +360,14 @@
         anonaddy
         tampermonkey
         clearurls
-        gaoptout
+        # gaoptout
         privacy-possum
 
         # Privacy 
-        localcdn
+        # localcdn
         smart-referer
         user-agent-string-switcher
-        canvasblocker
+        # canvasblocker
         cookie-autodelete
         decentraleyes
 
@@ -392,16 +375,16 @@
         darkreader
         sponsorblock
         enhancer-for-youtube
-        auto-tab-discard
-        firefox-translations
+        # auto-tab-discard
+        # firefox-translations
         augmented-steam
-        bypass-paywalls-clean
+        # bypass-paywalls-clean
         consent-o-matic
         enhanced-github
         flagfox
         i-dont-care-about-cookies
-        libredirect
-        limit-limit-distracting-sites
+        # libredirect
+        # limit-limit-distracting-sites
         lovely-forks
         nighttab
         protondb-for-steam
